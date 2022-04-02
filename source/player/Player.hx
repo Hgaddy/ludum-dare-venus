@@ -3,6 +3,7 @@ package player;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
+import flixel.util.FlxColor;
 
 class Player extends FlxSprite
 {
@@ -13,7 +14,7 @@ class Player extends FlxSprite
 	public function new(X:Float = 0, Y:Float = 0)
 	{
 		super(X, Y);
-		makeGraphic(16, 16, 0xBBBBBBBB);
+		makeGraphic(16, 16, FlxColor.RED);
 		// health = maxHealth;
 		// acceleration.y = 330;
 	}
