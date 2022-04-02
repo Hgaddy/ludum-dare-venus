@@ -1,5 +1,7 @@
 package;
 
+import flixel.util.FlxTimer;
+import player.Saw;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.display.FlxBackdrop;
@@ -7,8 +9,13 @@ import player.Player;
 
 class PlayState extends FlxState
 {
+	private var newSawTimer:FlxTimer = new FlxTimer();
+    private var newSawDelay:Float = 10;
+
 	var backdrop:FlxBackdrop;
 	var player:Player;
+	var saw:Saw;
+	var saw2:Saw;
 
 	override public function create()
 	{
@@ -21,8 +28,21 @@ class PlayState extends FlxState
 		// create player
 		player = new Player(FlxG.width / 4, FlxG.height / 4);
 
+		// generate first saw
+		saw = new Saw(FlxG.width / 4, FlxG.height / 4, player, 0);
+
+		// start saw timer
+		newSawTimer.start(newSawDelay, setUpSaws, 1);
+
 		add(backdrop);
 		add(player);
+		add(saw);
+	}
+
+	private function setUpSaws (timer:FlxTimer)
+	{
+		saw2 = new Saw(FlxG.width / 4, FlxG.height / 4, player, 1);
+		add(saw2);
 	}
 
 	override public function update(elapsed:Float)

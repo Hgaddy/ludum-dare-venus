@@ -16,13 +16,11 @@ class Player extends FlxSprite
 		super(X, Y);
 		makeGraphic(16, 16, FlxColor.RED);
 		// health = maxHealth;
-		// acceleration.y = 330;
 	}
 
 	override public function update(elapsed:Float)
 	{
 		setSpeed();
-		// jump();
 
 		super.update(elapsed);
 	}
@@ -76,20 +74,6 @@ class Player extends FlxSprite
 			velocity.y = 0;
 		}
 	}
-
-	// private function jump()
-	// {
-	// 	if (FlxG.keys.justPressed.UP)
-	// 	{
-	// 		velocity.y = -220;
-	// 	}
-	// }
-	// public function setPower(power:HeroPower) {
-	// 	currentPower = power;
-	// }
-	// override function hurt(damage:Float) {
-	// 	super.hurt(currentPower.adjustDamage(damage));
-	// }
 
 	override function kill()
 	{
