@@ -1,0 +1,9 @@
+
+export/neko/obj/ApplicationMain.n
+export/neko/obj/ApplicationMain.exe
+export/neko/haxe/release.hxml
+export/neko/haxe/ManifestResources.hx
+export/neko/haxe/final.hxml
+export/neko/haxe/debug.hxml
+export/neko/haxe/ApplicationMain.hx
+export/neko/bin/ludum-dare-venus.exe
