@@ -6,7 +6,7 @@ import flixel.FlxSprite;
 
 class Player extends FlxSprite
 {
-	public static var SPEED(default, never):Int = 100;
+	public static var SPEED(default, never):Int = 150;
 
 	// public var maxHealth:Int = 3;
 
@@ -21,7 +21,7 @@ class Player extends FlxSprite
 	override public function update(elapsed:Float)
 	{
 		setSpeed();
-		jump();
+		// jump();
 
 		if (!isOnScreen())
 		{
@@ -38,6 +38,12 @@ class Player extends FlxSprite
 		{
 			velocity.x = 0;
 		}
+
+		if (FlxG.keys.justPressed.UP)
+		{
+			velocity.y = -SPEED;
+		}
+
 		if (FlxG.keys.pressed.LEFT && x > 4)
 		{
 			velocity.x = -(SPEED * 1.4);
@@ -48,26 +54,41 @@ class Player extends FlxSprite
 			velocity.x = SPEED;
 		}
 
+		if (FlxG.keys.pressed.DOWN && x < FlxG.height - height)
+		{
+			velocity.y = SPEED;
+		}
+
 		if (FlxG.keys.pressed.RIGHT && FlxG.keys.pressed.LEFT)
 		{
-			// adds the cancel out effect
+			// cancel out
 			velocity.x = 0;
+		}
+
+		if (FlxG.keys.pressed.UP && FlxG.keys.pressed.DOWN)
+		{
+			// cancel out
+			velocity.y = 0;
 		}
 
 		if (FlxG.keys.justReleased.LEFT || FlxG.keys.justReleased.RIGHT)
 		{
 			velocity.x = 0;
 		}
-	}
 
-	private function jump()
-	{
-		if (FlxG.keys.justPressed.UP)
+		if (FlxG.keys.justReleased.UP || FlxG.keys.justReleased.DOWN)
 		{
-			velocity.y = -220;
+			velocity.y = 0;
 		}
 	}
 
+	// private function jump()
+	// {
+	// 	if (FlxG.keys.justPressed.UP)
+	// 	{
+	// 		velocity.y = -220;
+	// 	}
+	// }
 	// public function setPower(power:HeroPower) {
 	// 	currentPower = power;
 	// }
