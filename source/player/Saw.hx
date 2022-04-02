@@ -12,18 +12,18 @@ import flixel.util.FlxColor;
 class Saw extends FlxSprite
 {
     
-    public static var SPEED = 220;
+    public static var SPEED = 250;
     public var player_:Player;
     public var sawNum:Float;
 
     public function new(X:Float = 0, Y:Float = 0, player:Player, num:Float = 0)
     {
         super(X, Y);
-        this.angularVelocity = 100;
+        this.angularVelocity = 250;
         //this.acceleration.y = 10;
         player_ = player;
         this.sawNum = num;
-        makeGraphic(10, 10, FlxColor.BROWN);
+        makeGraphic(15, 15, FlxColor.BROWN);
     }
 
     override public function update(elapsed:Float)
@@ -47,6 +47,11 @@ class Saw extends FlxSprite
         {
             this.velocity.set(-SPEED, 0);
             this.velocity.rotate(FlxPoint.weak(0, 0), angle - 15);
+        }
+        // if too far away
+        if (playerMidpoint.distanceTo(sawMidpoint) > 450)
+        {
+            this.reset(player_.x, player_.y);
         }
         
         // this.x = player_.x + 75;
