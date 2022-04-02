@@ -24,12 +24,6 @@ class Player extends FlxSprite
 		setSpeed();
 		// jump();
 
-		if (!isOnScreen())
-		{
-			hurt(1);
-			reset(FlxG.width / 2, FlxG.height / 2);
-		}
-
 		super.update(elapsed);
 	}
 
@@ -55,7 +49,7 @@ class Player extends FlxSprite
 			velocity.x = SPEED;
 		}
 
-		if (FlxG.keys.pressed.DOWN && x < FlxG.height - height)
+		if (FlxG.keys.pressed.DOWN)
 		{
 			velocity.y = SPEED;
 		}
