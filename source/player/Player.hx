@@ -17,15 +17,12 @@ class Player extends FlxSprite
 		super(X, Y);
 		// makeGraphic(16, 16, FlxColor.RED);
 		loadGraphic(AssetPaths.player__png, false);
-<<<<<<< HEAD
 		this.width = 29;
 		this.height = 25;
 		this.offset.x = 29;
 		this.offset.y = 2.5;
 		// health = maxHealth;
-=======
 		health = maxHealth;
->>>>>>> 373101fd2ea2ee5d0ef3900784b31ebe0a18c234
 	}
 
 	override public function update(elapsed:Float)
