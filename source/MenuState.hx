@@ -19,6 +19,13 @@ class MenuState extends FlxState
 
 	override public function create()
 	{
+		if (FlxG.sound.music == null) // don't restart the music if it's already playing
+			{
+				// start music
+				FlxG.sound.playMusic(AssetPaths.sawintro__wav, 1, true);
+			}		
+
+
 		// first part of title
 		titleText = new FlxText(20, 0, 0, "Space Saw", 35);
 		titleText.alignment = CENTER;
@@ -54,6 +61,7 @@ class MenuState extends FlxState
 	{
 		FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function()
 		{
+			FlxG.sound.music.stop();
 			FlxG.switchState(new PlayState());
 		});
 	}

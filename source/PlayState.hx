@@ -35,8 +35,13 @@ class PlayState extends FlxState
 
 	override public function create()
 	{
+		// start music
+		FlxG.sound.playMusic(AssetPaths.sawmain__wav, 1, true);
+
+		// fase in
 		FlxG.camera.fade(FlxColor.BLACK, 0.33, true);
 
+		// call super
 		super.create();
 
 		// create backdrop
@@ -53,6 +58,7 @@ class PlayState extends FlxState
 		// start saw timer
 		newSawTimer.start(newSawDelay, setUpSaws, 1);
 
+		// add elements
 		add(backdrop);
 		add(player);
 		add(hud);

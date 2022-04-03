@@ -1,6 +1,7 @@
 package player;
 
 import flixel.FlxG;
+import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
@@ -14,8 +15,9 @@ class Player extends FlxSprite
 	public function new(X:Float = 0, Y:Float = 0)
 	{
 		super(X, Y);
-		makeGraphic(16, 16, FlxColor.RED);
-		health = maxHealth;
+		// makeGraphic(16, 16, FlxColor.RED);
+		loadGraphic(AssetPaths.player__png, false);
+		// health = maxHealth;
 	}
 
 	override public function update(elapsed:Float)
@@ -39,7 +41,7 @@ class Player extends FlxSprite
 
 		if (FlxG.keys.pressed.LEFT && x > 4)
 		{
-			velocity.x = -(SPEED * 1.4);
+			velocity.x = -SPEED;
 		}
 
 		if (FlxG.keys.pressed.RIGHT && x < FlxG.width - width)
