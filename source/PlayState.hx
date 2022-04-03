@@ -6,6 +6,8 @@ import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.display.FlxBackdrop;
 import player.Player;
+import Hud;
+import flixel.FlxCamera;
 
 class PlayState extends FlxState
 {
@@ -14,6 +16,7 @@ class PlayState extends FlxState
 
 	var backdrop:FlxBackdrop;
 	var player:Player;
+	var hud:Hud;
 	var saw:Saw;
 	var saw2:Saw;
 
@@ -27,6 +30,8 @@ class PlayState extends FlxState
 
 		// create player
 		player = new Player(FlxG.width / 4, FlxG.height / 4);
+		hud = new Hud(player, 22, 22);
+
 
 		// generate first saw
 		saw = new Saw(FlxG.width / 4, FlxG.height / 4, player, 0);
@@ -36,6 +41,7 @@ class PlayState extends FlxState
 
 		add(backdrop);
 		add(player);
+		add(hud);		
 		add(saw);
 	}
 
