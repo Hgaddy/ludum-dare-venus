@@ -83,9 +83,9 @@ class PlayState extends FlxState
 		enemiesThree = new FlxTypedGroup<Enemy>();
 		for (i in 0...5)
 		{
-			var enemyOne = new Enemy(FlxG.random.float(0, FlxG.width), 0, NORMY);
-			var enemyTwo = new Enemy(FlxG.random.float(0, FlxG.width), 0, NORMY);
-			var enemyThree = new Enemy(FlxG.random.float(0, FlxG.width), 0, NORMY);
+			var enemyOne = new Enemy(0, 0, NORMY);
+			var enemyTwo = new Enemy(150, 0, NORMY);
+			var enemyThree = new Enemy(300, 0, NORMY);
 			enemyOne.kill();
 			enemyTwo.kill();
 			enemyThree.kill();
@@ -97,6 +97,12 @@ class PlayState extends FlxState
 		add(enemiesOne);
 		add(enemiesTwo);
 		add(enemiesThree);
+
+		if (!enemy.isOnScreen())
+		{
+			var enemyBoss = new Enemy(250, 0, BOSS);
+			add(enemyBoss);
+		}
 	}
 
 	override public function update(elapsed:Float)
@@ -110,8 +116,8 @@ class PlayState extends FlxState
 		}
 
 		FlxG.overlap(player, enemy, Enemy.overlapsWithPlayer);
-		// FlxG.overlap(saw, enemy, Enemy.overlapsWithSaw);
-		// FlxG.overlap(saw2, enemy, Enemy.overlapsWithSaw2);
+		FlxG.overlap(saw, enemy, Enemy.overlapsWithSaw);
+		FlxG.overlap(saw2, enemy, Enemy.overlapsWithSaw);
 		// FlxG.overlap(player, enemiesTwo, Enemy.overlapsWithPlayer);
 		// FlxG.overlap(player, enemiesThree, Enemy.overlapsWithPlayer);
 
