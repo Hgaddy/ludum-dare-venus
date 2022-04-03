@@ -23,7 +23,7 @@ class Saw extends FlxSprite
         //this.acceleration.y = 10;
         player_ = player;
         this.sawNum = num;
-        makeGraphic(15, 15, FlxColor.BROWN);
+        makeGraphic(15, 15, FlxColor.GRAY);
     }
 
     override public function update(elapsed:Float)
