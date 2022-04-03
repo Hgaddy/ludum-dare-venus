@@ -15,7 +15,8 @@ class Enemy extends FlxSprite
 	static inline var SPEED:Float = 150;
 
 	var type:EnemyType;
-	var bossHealth:Int = 6;
+
+	static var bossHealth:Int = 6;
 
 	public function new(x:Float, y:Float, type:EnemyType)
 	{
@@ -25,6 +26,8 @@ class Enemy extends FlxSprite
 		var graphic = if (type == BOSS) AssetPaths.boss__png else AssetPaths.enemy__png;
 		if (type == BOSS)
 		{
+			velocity.x = SPEED;
+			velocity.y = 0;
 			loadGraphic(graphic, true, 100, 140);
 		}
 		else
@@ -55,35 +58,19 @@ class Enemy extends FlxSprite
 		player.kill();
 	}
 
-	public function overlapsWithSaw(saw:FlxObject, Enemy:Enemy)
+	public static function overlapsWithSaw(saw:FlxObject, enemy:Enemy)
 	{
-		if (Enemy.type == BOSS)
+		if (enemy.type == BOSS)
 		{
 			bossHealth -= 1;
 			if (bossHealth <= 0)
 			{
-				Enemy.kill();
+				enemy.kill();
 			}
 		}
-		else if (Enemy.type == NORMY)
+		if (enemy.type == NORMY)
 		{
-			Enemy.kill();
-		}
-	}
-
-	public function overlapsWithSaw2(saw2:FlxObject, Enemy:Enemy)
-	{
-		if (Enemy.type == BOSS)
-		{
-			bossHealth -= 1;
-			if (bossHealth <= 0)
-			{
-				Enemy.kill();
-			}
-		}
-		if (Enemy.type == NORMY)
-		{
-			Enemy.kill();
+			enemy.kill();
 		}
 	}
 
