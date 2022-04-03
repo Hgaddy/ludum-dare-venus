@@ -13,7 +13,7 @@ class EnemyGenerator<T:Enemy> extends FlxBasic
 
 	private var spawnTimer:FlxTimer = new FlxTimer();
 
-	public var spawnDelay(default, set):Float;
+	public var spawnDelay:Float;
 
 	public function new(spawnDelay:Float, obstacles:FlxTypedGroup<T>)
 	{
