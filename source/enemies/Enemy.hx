@@ -65,7 +65,7 @@ class Enemy extends FlxSprite
 				Enemy.kill();
 			}
 		}
-		if (Enemy.type == NORMY)
+		else if (Enemy.type == NORMY)
 		{
 			Enemy.kill();
 		}
