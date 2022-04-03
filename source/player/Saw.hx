@@ -11,7 +11,6 @@ import flixel.util.FlxColor;
 
 class Saw extends FlxSprite
 {
-    
     public static var SPEED = 250;
     public var player_:Player;
     public var sawNum:Float;
