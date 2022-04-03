@@ -3,6 +3,7 @@ package;
 import flixel.util.FlxTimer;
 import player.Saw;
 import flixel.FlxG;
+import flixel.util.FlxColor;
 import flixel.FlxState;
 import flixel.addons.display.FlxBackdrop;
 import player.Player;
@@ -22,6 +23,8 @@ class PlayState extends FlxState
 
 	override public function create()
 	{
+		FlxG.camera.fade(FlxColor.BLACK, 0.33, true);
+
 		super.create();
 
 		// create backdrop
