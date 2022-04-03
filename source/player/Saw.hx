@@ -19,15 +19,21 @@ class Saw extends FlxSprite
     public function new(X:Float = 0, Y:Float = 0, player:Player, num:Float = 0)
     {
         super(X, Y);
+
+        // set rotation velocity
         this.angularVelocity = 1000;
-        //this.acceleration.y = 10;
+
+        // tracking variables
         player_ = player;
         this.sawNum = num;
+
+        // make the graphic
         makeGraphic(15, 15, FlxColor.GRAY);
     }
 
     override public function update(elapsed:Float)
     {
+        // Call movement function
         followPlayer();
 
         super.update(elapsed);
@@ -35,32 +41,30 @@ class Saw extends FlxSprite
 
     private function followPlayer()
     {
+        // Initialize midpoint values
         var sawMidpoint = getMidpoint();
         var playerHighMidpoint = player_.getMidpoint();
         var playerLowMidpoint = player_.getMidpoint();
         
-        if (sawNum == 0)
+        if (sawNum == 0) // if first saw
         {
             playerHighMidpoint.x = player_.x - 30;
             var angle1 = playerHighMidpoint.angleBetween(sawMidpoint);
             this.velocity.set(SPEED, 0);
             this.velocity.rotate(FlxPoint.weak(0, 0), angle1 + 15);
-        } else
+        } else // if second saw
         {
             playerLowMidpoint.x = player_.x + 45;
             var angle2 = playerLowMidpoint.angleBetween(sawMidpoint);
             this.velocity.set(-SPEED, 0);
             this.velocity.rotate(FlxPoint.weak(0, 0), angle2 - 15);
         }
-        // if too far away
-        var playerMidpoint = player_.getMidpoint();
+        // get midpoint of player
+        var playerMidpoint = player_.getMidpoint(); // if too far away
         if (playerMidpoint.distanceTo(sawMidpoint) > 450)
         {
+            // reset position of saw
             this.reset(player_.x, player_.y);
         }
-        
-        // this.x = player_.x + 75;
-        // this.y = player_.y + 75;
-        // use set position
     }
 }
