@@ -31,6 +31,8 @@ class PlayState extends FlxState
 	var boss:Enemy;
 	var SECONDS_PER_ENEMY(default, never):Float = 1;
 
+	var ending:Bool = false;
+
 	override public function create()
 	{
 		FlxG.camera.fade(FlxColor.BLACK, 0.33, true);
@@ -95,13 +97,29 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 
+		// End anything else from happening if the game is ready to 'end'
+		if (ending)
+		{
+			return;
+		}
+
 		FlxG.overlap(player, enemy, Enemy.overlapsWithPlayer);
 		// FlxG.overlap(saw, enemy, Enemy.overlapsWithSaw);
 		// FlxG.overlap(saw2, enemy, Enemy.overlapsWithSaw2);
-		FlxG.overlap(player, enemiesTwo, Enemy.overlapsWithPlayer);
-		FlxG.overlap(player, enemiesThree, Enemy.overlapsWithPlayer);
+		// FlxG.overlap(player, enemiesTwo, Enemy.overlapsWithPlayer);
+		// FlxG.overlap(player, enemiesThree, Enemy.overlapsWithPlayer);
 
 		if (FlxG.keys.justPressed.ENTER)
 			FlxG.fullscreen = !FlxG.fullscreen;
+
+		// End the game if the player reaches 0 lives or health
+		if (player.health <= 0)
+		{
+			ending = true;
+			FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function gameOver()
+			{
+				FlxG.switchState(new GameOverState());
+			});
+		}
 	}
 }

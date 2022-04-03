@@ -12,12 +12,12 @@ enum EnemyType
 
 class Enemy extends FlxSprite
 {
-	static inline var SPEED:Float = 120;
+	static inline var SPEED:Float = 150;
 
 	var type:EnemyType;
 	var bossHealth:Int = 6;
 
-	public function new(x:Float = 0, y:Float = 0, type:EnemyType)
+	public function new(x:Float, y:Float, type:EnemyType)
 	{
 		super();
 		this.type = type;
@@ -40,7 +40,7 @@ class Enemy extends FlxSprite
 			kill();
 		}
 
-		wallWrapping();
+		screenWrapping();
 
 		super.update(elapsed);
 	}
@@ -87,7 +87,7 @@ class Enemy extends FlxSprite
 		}
 	}
 
-	private function wallWrapping()
+	private function screenWrapping()
 	{
 		if (y < 0 - height && type == NORMY)
 		{
