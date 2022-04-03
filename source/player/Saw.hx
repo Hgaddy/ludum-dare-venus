@@ -19,7 +19,7 @@ class Saw extends FlxSprite
     public function new(X:Float = 0, Y:Float = 0, player:Player, num:Float = 0)
     {
         super(X, Y);
-        this.angularVelocity = 250;
+        this.angularVelocity = 1000;
         //this.acceleration.y = 10;
         player_ = player;
         this.sawNum = num;
@@ -36,19 +36,24 @@ class Saw extends FlxSprite
     private function followPlayer()
     {
         var sawMidpoint = getMidpoint();
-        var playerMidpoint = player_.getMidpoint();
-
-        var angle = playerMidpoint.angleBetween(sawMidpoint);
+        var playerHighMidpoint = player_.getMidpoint();
+        var playerLowMidpoint = player_.getMidpoint();
+        
         if (sawNum == 0)
         {
+            playerHighMidpoint.x = player_.x - 30;
+            var angle1 = playerHighMidpoint.angleBetween(sawMidpoint);
             this.velocity.set(SPEED, 0);
-            this.velocity.rotate(FlxPoint.weak(0, 0), angle + 15);
+            this.velocity.rotate(FlxPoint.weak(0, 0), angle1 + 15);
         } else
         {
+            playerLowMidpoint.x = player_.x + 45;
+            var angle2 = playerLowMidpoint.angleBetween(sawMidpoint);
             this.velocity.set(-SPEED, 0);
-            this.velocity.rotate(FlxPoint.weak(0, 0), angle - 15);
+            this.velocity.rotate(FlxPoint.weak(0, 0), angle2 - 15);
         }
         // if too far away
+        var playerMidpoint = player_.getMidpoint();
         if (playerMidpoint.distanceTo(sawMidpoint) > 450)
         {
             this.reset(player_.x, player_.y);
