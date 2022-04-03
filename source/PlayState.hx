@@ -13,7 +13,7 @@ import flixel.FlxCamera;
 class PlayState extends FlxState
 {
 	private var newSawTimer:FlxTimer = new FlxTimer();
-    private var newSawDelay:Float = 10;
+	private var newSawDelay:Float = 10;
 
 	var backdrop:FlxBackdrop;
 	var player:Player;
@@ -35,7 +35,6 @@ class PlayState extends FlxState
 		player = new Player(FlxG.width / 4, FlxG.height / 4);
 		hud = new Hud(player, 22, 22);
 
-
 		// generate first saw
 		saw = new Saw(FlxG.width / 4, FlxG.height / 4, player, 0);
 
@@ -44,11 +43,11 @@ class PlayState extends FlxState
 
 		add(backdrop);
 		add(player);
-		add(hud);		
+		add(hud);
 		add(saw);
 	}
 
-	private function setUpSaws (timer:FlxTimer)
+	private function setUpSaws(timer:FlxTimer)
 	{
 		saw2 = new Saw(FlxG.width / 4, FlxG.height / 4, player, 1);
 		add(saw2);
