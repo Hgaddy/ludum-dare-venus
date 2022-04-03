@@ -54,7 +54,7 @@ class PlayState extends FlxState
 
 		// generate first saw
 		saw = new Saw(FlxG.width / 2, FlxG.height - 80, player, 0);
-		saw2 = new Saw(FlxG.width / 4, FlxG.height / 4, player, 1);
+		saw2 = new Saw(FlxG.width / 2 + 15, FlxG.height - 80, player, 1);
 
 		// add elements
 		add(backdrop);
