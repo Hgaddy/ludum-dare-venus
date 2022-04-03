@@ -28,11 +28,19 @@ class Enemy extends FlxSprite
 		{
 			velocity.x = SPEED;
 			velocity.y = 0;
-			loadGraphic(graphic, true, 100, 140);
+			loadGraphic(graphic, true);
+			this.width = 80;
+			this.height = 120;
+			this.offset.x = 20;
+			this.offset.y = 10;
 		}
 		else
 		{
-			loadGraphic(graphic, true, 50, 55);
+			loadGraphic(graphic, true);
+			this.width = 30;
+			this.height = 45;
+			this.offset.x = 10;
+			this.offset.y = 5;
 		}
 	}
 
