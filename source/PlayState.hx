@@ -54,26 +54,19 @@ class PlayState extends FlxState
 
 		// generate first saw
 		saw = new Saw(FlxG.width / 2, FlxG.height - 80, player, 0);
-
-		// start saw timer
-		newSawTimer.start(newSawDelay, setUpSaws, 1);
+		saw2 = new Saw(FlxG.width / 4, FlxG.height / 4, player, 1);
 
 		// add elements
 		add(backdrop);
 		add(player);
 		add(hud);
 		add(saw);
+		add(saw2);
 
 		// create enemies
 		// setUpEnemies();
 		enemy = new Enemy(100, 0, NORMY);
 		add(enemy);
-	}
-
-	private function setUpSaws(timer:FlxTimer)
-	{
-		saw2 = new Saw(FlxG.width / 4, FlxG.height / 4, player, 1);
-		add(saw2);
 	}
 
 	private function setUpEnemies()
