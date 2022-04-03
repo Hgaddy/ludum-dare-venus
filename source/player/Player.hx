@@ -10,7 +10,7 @@ class Player extends FlxSprite
 {
 	public static var SPEED(default, never):Int = 150;
 
-	// public var maxHealth:Int = 3;
+	public var maxHealth:Int = 3;
 
 	public function new(X:Float = 0, Y:Float = 0)
 	{
@@ -79,8 +79,8 @@ class Player extends FlxSprite
 
 	override function kill()
 	{
-		reset(FlxG.width / 4, FlxG.height / 4);
-		// health = maxHealth;
+		reset(FlxG.width / 2, FlxG.height - 80);
+		health -= 1;
 		// currentPower.inUse = false;
 		// currentPower.usable = true;
 		// cast(FlxG.state, PlayState).resetScore();

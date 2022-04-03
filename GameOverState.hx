@@ -1,83 +1,75 @@
 package;
 
-import flixel.system.debug.interaction.tools.Pointer;
+import lime.system.System;
+import flixel.util.FlxColor;
+import flixel.ui.FlxButton;
 import flixel.FlxG;
+import flixel.FlxSubState;
 import flixel.FlxState;
 import flixel.text.FlxText;
+import flixel.FlxSprite;
 import flixel.addons.ui.FlxButtonPlus;
-import flixel.util.FlxColor;
-import lime.system.System;
 
-class MenuState extends FlxState
+class GameOverState extends FlxState
 {
 	var titleText:FlxText;
 	var titleText2:FlxText;
-	var playButton:FlxButtonPlus;
+	var endMessage:FlxText;
+	var endMessage2:FlxText;
+	var tryAgainButton:FlxButtonPlus;
 	#if desktop
 	var exitButton:FlxButtonPlus;
 	#end
 
 	override public function create()
 	{
-		if (FlxG.sound.music == null) // don't restart the music if it's already playing
-			{
-				// start music
-				FlxG.sound.playMusic(AssetPaths.sawintro__wav, 1, true);
-			}		
-
+		#if FLX_MOUSE
+		FlxG.mouse.visible = true;
+		#end
 
 		// first part of title
 		titleText = new FlxText(20, 0, 0, "Space Saw", 35);
 		titleText.alignment = CENTER;
 		titleText.screenCenter(X);
 		add(titleText);
-
 		// second part of title
 		titleText2 = new FlxText(20, 60, 0, "Defense", 35);
 		titleText2.alignment = CENTER;
 		titleText2.screenCenter(X);
 		add(titleText2);
 
-		// add play button
-		playButton = new FlxButtonPlus(0, 0, clickPlay, "Play", 200, 50);
+		// Game Over messages
+		endMessage = new FlxText(0, 0, 0, "The Earth has inevitably been destroyed! ", 22);
+		endMessage.screenCenter();
+		add(endMessage);
+		endMessage2 = new FlxText((FlxG.width / 2) - 140, (FlxG.height / 2) + 20, 0, "Game Over...or is it?!", 22);
+		add(endMessage2);
+		// Play again button
+		tryAgainButton = new FlxButtonPlus(0, 0, tryAgain, "Try Again?", 200, 50);
 		// PlayButton.onUp.sound = FlxG.sound.load(AssetPaths.start__wav);
-		playButton.x = (FlxG.width / 2) - (0.5 * playButton.width);
-		playButton.y = FlxG.height - playButton.height - 10;
-		add(playButton);
-
-		// add exit button
+		tryAgainButton.x = (FlxG.width / 2) - (0.5 * tryAgainButton.width);
+		tryAgainButton.y = FlxG.height - tryAgainButton.height - 10;
+		add(tryAgainButton);
+		// Exit the game button
 		#if desktop
 		exitButton = new FlxButtonPlus(FlxG.width - 90, 8, clickExit, "X", 80, 20);
 		// exitButton.loadGraphic(AssetPaths.button__png, true, 20, 20);
 		add(exitButton);
 		#end
 
-		FlxG.camera.fade(FlxColor.BLACK, 0.33, true);
-
 		super.create();
 	}
 
-	private function clickPlay()
+	private function tryAgain()
 	{
 		FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function()
 		{
-			FlxG.sound.music.stop();
 			FlxG.switchState(new PlayState());
 		});
 	}
 
-	#if desktop
 	private function clickExit()
 	{
 		System.exit(0);
-	}
-	#end
-
-	override public function update(elapsed:Float)
-	{
-		super.update(elapsed);
-
-		if (FlxG.keys.justPressed.ENTER)
-			FlxG.fullscreen = !FlxG.fullscreen;
 	}
 }
