@@ -12,16 +12,18 @@ enum EnemyType
 
 class Enemy extends FlxSprite
 {
-	static inline var SPEED:Float = 150;
-
+	
+	static var SPEED:Float = 100;
 	var type:EnemyType;
 	var bossHealth:Int = 6;
 
-	public function new(x:Float, y:Float, type:EnemyType)
+	public function new(type:EnemyType)
 	{
-		super();
+
+		super(x, y);
+		velocity.y = SPEED; //Speed of enemies
+
 		this.type = type;
-		velocity.y = SPEED;
 		var graphic = if (type == BOSS) AssetPaths.boss__png else AssetPaths.enemy__png;
 		if (type == BOSS)
 		{
@@ -31,7 +33,15 @@ class Enemy extends FlxSprite
 		{
 			loadGraphic(graphic, true, 50, 55);
 		}
+		kill();
 	}
+
+	override public function revive()
+		{
+			x = FlxG.random.int(0, Std.int(FlxG.width - width));
+			y =  -height;
+			super.revive();
+		}
 
 	override public function update(elapsed:Float)
 	{
@@ -52,7 +62,9 @@ class Enemy extends FlxSprite
 
 	public static function overlapsWithPlayer(player:FlxObject, Enemy:Enemy)
 	{
-		player.kill();
+		player.hurt(1);
+		Enemy.kill();
+
 	}
 
 	public function overlapsWithSaw(saw:FlxObject, Enemy:Enemy)
