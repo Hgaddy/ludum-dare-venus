@@ -16,6 +16,8 @@ class GameOverState extends FlxState
 	var titleText2:FlxText;
 	var endMessage:FlxText;
 	var endMessage2:FlxText;
+	var finalScore:FlxText;
+	var totalScore:Int;
 	var tryAgainButton:FlxButtonPlus;
 	#if desktop
 	var exitButton:FlxButtonPlus;
@@ -37,6 +39,11 @@ class GameOverState extends FlxState
 		titleText2.alignment = CENTER;
 		titleText2.screenCenter(X);
 		add(titleText2);
+		// Final Score message
+		totalScore = Hud.score;
+		finalScore = new FlxText(0, 170, 0, "Final Score: " + totalScore, 22);
+		finalScore.screenCenter(X);
+		add(finalScore);
 
 		// Game Over messages
 		endMessage = new FlxText(0, 0, 0, "Seems your time ran out... ", 22);
@@ -57,7 +64,7 @@ class GameOverState extends FlxState
 		add(exitButton);
 		#end
 
-		FlxG.sound.play(AssetPaths.PlayerDeath__wav, 100);	//Play player death sound
+		FlxG.sound.play(AssetPaths.PlayerDeath__wav, 100); // Play player death sound
 
 		super.create();
 	}
@@ -76,12 +83,12 @@ class GameOverState extends FlxState
 	}
 
 	override public function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		if (FlxG.mouse.justPressed)
 		{
-			super.update(elapsed);
-	
-			if (FlxG.mouse.justPressed)
-				{
-					FlxG.sound.play(AssetPaths.MenuClick__wav, 100);	//MenuClick sound
-				}
+			FlxG.sound.play(AssetPaths.MenuClick__wav, 100); // MenuClick sound
 		}
+	}
 }

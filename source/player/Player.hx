@@ -22,7 +22,6 @@ class Player extends FlxSprite
 		this.height = 25;
 		this.offset.x = 29;
 		this.offset.y = 2.5;
-		// health = maxHealth;
 		health = maxHealth;
 	}
 
@@ -86,8 +85,5 @@ class Player extends FlxSprite
 	override function hurt(damage)
 	{
 		health -= 1;
-		// currentPower.inUse = false;
-		// currentPower.usable = true;
-		// cast(FlxG.state, PlayState).resetScore();
 	}
 }

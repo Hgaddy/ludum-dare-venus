@@ -9,9 +9,9 @@ import flixel.FlxState;
 import flixel.addons.display.FlxBackdrop;
 import player.Player;
 import Hud;
-import flixel.FlxCamera;
 import enemies.Enemy;
 import flixel.group.FlxGroup;
+import flixel.FlxObject;
 
 class PlayState extends FlxState
 {
@@ -25,13 +25,13 @@ class PlayState extends FlxState
 	// Player and Saw variables
 	private var newSawTimer:FlxTimer = new FlxTimer();
 	private var newSawDelay:Float = 10;
-
 	var backdrop:FlxBackdrop;
+	var bottomWall:FlxObject;
 	var player:Player;
 	var hud:Hud;
 	var saw:Saw;
 	var saw2:Saw;
-
+	// Game Over condition(s)
 	var ending:Bool = false;
 
 	override public function create()
@@ -49,6 +49,10 @@ class PlayState extends FlxState
 		backdrop = new FlxBackdrop(AssetPaths.stars__png, 0, 1, false, true, 0, 0);
 		backdrop.velocity.set(0, 100);
 
+		// create bottom wall
+		bottomWall = new FlxObject(0, FlxG.height, FlxG.width, (FlxG.height - 10));
+		bottomWall.immovable = true;
+
 		// create player
 		player = new Player(FlxG.width / 2, FlxG.height - 80);
 		hud = new Hud(player, 22, 22);
@@ -59,6 +63,7 @@ class PlayState extends FlxState
 
 		// add elements
 		add(backdrop);
+		add(bottomWall);
 		add(player);
 		add(hud);
 		add(saw);
@@ -71,7 +76,7 @@ class PlayState extends FlxState
 	// SpawnTimer of enemies, deals with just NORMY type enemies at the moment.
 	override public function update(elapsed:Float)
 	{
-		spawnTimer += elapsed * 3;	//Reduce this timer value to  make it take longer for ships to respawn, increase for opposite effect.
+		spawnTimer += elapsed * 3; // Reduce this timer value to  make it take longer for ships to respawn, increase for opposite effect.
 		if (spawnTimer > 1)
 		{
 			spawnTimer--;
@@ -85,10 +90,22 @@ class PlayState extends FlxState
 			return;
 		}
 
+		// Bottom wall collision
+		if (FlxG.collide(player, bottomWall))
+		{
+			player.velocity.y = 0;
+		}
+
 		// Enemy collision detection
 		FlxG.overlap(player, enemyGroup, Enemy.overlapsWithPlayer);
-		FlxG.overlap(saw, enemyGroup, Enemy.overlapsWithSaw);
-		FlxG.overlap(saw2, enemyGroup, Enemy.overlapsWithSaw);
+		if (FlxG.overlap(saw, enemyGroup, Enemy.overlapsWithSaw))
+		{
+			hud.addScore(1);
+		}
+		if (FlxG.overlap(saw2, enemyGroup, Enemy.overlapsWithSaw))
+		{
+			hud.addScore(1);
+		}
 
 		if (FlxG.keys.justPressed.ENTER)
 			FlxG.fullscreen = !FlxG.fullscreen;
