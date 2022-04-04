@@ -74,6 +74,7 @@ class Enemy extends FlxSprite
 	public static function overlapsWithPlayer(player:FlxObject, Enemy:Enemy)
 	{
 		player.hurt(1);
+		FlxG.sound.play(AssetPaths.PlayerHurt__wav, .80);
 		Enemy.kill();
 	}
 
@@ -90,6 +91,7 @@ class Enemy extends FlxSprite
 		if (Enemy.type == NORMY)
 		{
 			Enemy.kill();
+			FlxG.sound.play(AssetPaths.EnemyDeath__wav, .80);
 		}
 	}
 
