@@ -71,7 +71,7 @@ class PlayState extends FlxState
 	// SpawnTimer of enemies, deals with just NORMY type enemies at the moment.
 	override public function update(elapsed:Float)
 	{
-		spawnTimer += elapsed * 5;
+		spawnTimer += elapsed * 3;	//Reduce this timer value to  make it take longer for ships to respawn, increase for opposite effect.
 		if (spawnTimer > 1)
 		{
 			spawnTimer--;
