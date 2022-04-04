@@ -1,2 +1,4 @@
 # ludum-dare-venus
-Ludum Dare project that is a space melee game.
+Space Saw Defense is a game for the Ludum Dare game jam!
+
+Various sounds from: https://opengameart.org/content/512-sound-effects-8-bit-style

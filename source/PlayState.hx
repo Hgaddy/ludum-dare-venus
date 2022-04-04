@@ -37,7 +37,7 @@ class PlayState extends FlxState
 	override public function create()
 	{
 		// start music
-		FlxG.sound.playMusic(AssetPaths.sawmain__wav, 1, true);
+		FlxG.sound.playMusic(AssetPaths.sawmain__wav, 0.8, true);
 
 		// phase in
 		FlxG.camera.fade(FlxColor.BLACK, 0.33, true);
@@ -96,6 +96,8 @@ class PlayState extends FlxState
 		// End the game if the player reaches 0 lives or health
 		if (player.health <= 0)
 		{
+			FlxG.sound.play(AssetPaths.PlayerDeath__wav, 100);
+
 			ending = true;
 			FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function gameOver()
 			{
