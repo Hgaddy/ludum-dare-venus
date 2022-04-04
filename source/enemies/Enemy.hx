@@ -47,6 +47,7 @@ class Enemy extends FlxSprite
 		kill();
 	}
 
+	//Overriding the revive() function, sets position of where enemies spawn, and randomizes their spawn location after they hit the bottom and are
 	override public function revive()
 		{
 			x = FlxG.random.int(0, Std.int(FlxG.width - width));

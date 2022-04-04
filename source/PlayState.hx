@@ -93,13 +93,16 @@ class PlayState extends FlxState
 //		add(enemiesTwo);
 //		add(enemiesThree);
 
-		if (!enemy.isOnScreen())
-		{
-			var enemyBoss = new Enemy(250, 0, BOSS);
-			add(enemyBoss);
-		}
+
+//Commented out because it doesn't work with current Enemy() parameters
+//		if (!enemy.isOnScreen())
+//		{
+//			var enemyBoss = new Enemy(250, 0, BOSS);
+//			add(enemyBoss);
+//		}
 	}
 
+	//SpawnTimer of enemies, deals with just NORMY type enemies at the moment.
 	override public function update(elapsed:Float)
 	{
 		spawnTimer += elapsed * 5;
