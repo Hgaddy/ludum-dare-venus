@@ -20,9 +20,8 @@ class Enemy extends FlxSprite
 
 	public function new(type:EnemyType)
 	{
-
 		super(x, y);
-		velocity.y = SPEED; //Speed of enemies
+		velocity.y = SPEED; // Speed of enemies
 
 		this.type = type;
 		var graphic = if (type == BOSS) AssetPaths.boss__png else AssetPaths.enemy__png;
@@ -47,13 +46,13 @@ class Enemy extends FlxSprite
 		kill();
 	}
 
-	//Overriding the revive() function, sets position of where enemies spawn, and randomizes their spawn location after they hit the bottom and are
+	// Overriding the revive() function, sets position of where enemies spawn, and randomizes their spawn location after they hit the bottom and are
 	override public function revive()
-		{
-			x = FlxG.random.int(0, Std.int(FlxG.width - width));
-			y =  -height;
-			super.revive();
-		}
+	{
+		x = FlxG.random.int(0, Std.int(FlxG.width - width));
+		y = -height;
+		super.revive();
+	}
 
 	override public function update(elapsed:Float)
 	{
@@ -76,22 +75,21 @@ class Enemy extends FlxSprite
 	{
 		player.hurt(1);
 		Enemy.kill();
-
 	}
 
-	public static function overlapsWithSaw(saw:FlxObject, enemy:Enemy)
+	public static function overlapsWithSaw(saw:FlxObject, Enemy:Enemy)
 	{
-		if (enemy.type == BOSS)
+		if (Enemy.type == BOSS)
 		{
 			bossHealth -= 1;
 			if (bossHealth <= 0)
 			{
-				enemy.kill();
+				Enemy.kill();
 			}
 		}
-		if (enemy.type == NORMY)
+		if (Enemy.type == NORMY)
 		{
-			enemy.kill();
+			Enemy.kill();
 		}
 	}
 
