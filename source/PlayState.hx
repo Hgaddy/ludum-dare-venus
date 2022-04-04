@@ -17,10 +17,9 @@ class PlayState extends FlxState
 {
 	// Enemy variables
 	var enemyGroup:FlxTypedGroup<Enemy>;
-	var bossGroup:FlxTypedGroup<Enemy>;
+	var boss:Enemy;
 	var spawnTimer:Float = 0;
 	var enemy:Enemy;
-	//	var boss:Enemy;
 	var SECONDS_PER_ENEMY(default, never):Float = 1;
 
 	// Player and Saw variables
@@ -34,8 +33,8 @@ class PlayState extends FlxState
 	var saw2:Saw;
 	// Game Over condition(s)
 	var ending:Bool = false;
-	var enemiesKilled:Int = 0;
-	var bossSpawned:Bool = false;
+	public var enemiesKilled:Int = 0;
+	public var bossSpawned:Bool = false;
 
 	override public function create()
 	{
@@ -73,7 +72,7 @@ class PlayState extends FlxState
 
 		// Create the enemies
 		add(enemyGroup = new FlxTypedGroup<Enemy>(20));
-		add(bossGroup = new FlxTypedGroup<Enemy>(1));
+		add(boss = new Enemy(EnemyType.BOSS));
 
 		// add hud
 		add(hud);
@@ -88,12 +87,10 @@ class PlayState extends FlxState
 			spawnTimer--;
 			enemyGroup.add(enemyGroup.recycle(Enemy.new.bind(EnemyType.NORMY)));
 		}
-		if (enemiesKilled >= 1 && !bossSpawned)
+		if (enemiesKilled >= 5 && !bossSpawned)
 		{
 			FlxG.sound.playMusic(AssetPaths.sawboss__wav, 0.8, true);
-			var boss = bossGroup.recycle(Enemy, Enemy.new.bind(EnemyType.BOSS));
-			trace(boss);
-			bossGroup.add(boss);
+			boss.revive();
 			bossSpawned = true;
 		}
 		super.update(elapsed);
@@ -112,6 +109,8 @@ class PlayState extends FlxState
 
 		// Enemy collision detection
 		FlxG.overlap(player, enemyGroup, Enemy.overlapsWithPlayer);
+		FlxG.overlap(player, boss, Enemy.overlapsWithPlayer);
+
 		if (FlxG.overlap(saw, enemyGroup, Enemy.overlapsWithSaw))
 		{
 			hud.addScore(1);
@@ -121,6 +120,14 @@ class PlayState extends FlxState
 		{
 			hud.addScore(1);
 			enemiesKilled++;
+		}
+		if (FlxG.overlap(saw, boss, Enemy.overlapsWithSaw))
+		{
+			hud.addScore(1);
+		}
+		if (FlxG.overlap(saw2, boss, Enemy.overlapsWithSaw))
+		{
+			hud.addScore(1);
 		}
 
 		if (FlxG.keys.justPressed.ENTER)

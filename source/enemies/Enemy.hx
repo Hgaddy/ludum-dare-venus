@@ -16,7 +16,11 @@ class Enemy extends FlxSprite
 
 	var type:EnemyType;
 
-	static var bossHealth:Int = 6;
+	static var bossHealth = 6;
+	var maxBossHealth:Int = 6;
+
+	var invulnTimerMax:Float = .5;
+	var invulnTimer:Float = 0;
 
 	public function new(type:EnemyType)
 	{
@@ -27,8 +31,8 @@ class Enemy extends FlxSprite
 		var graphic = if (type == BOSS) AssetPaths.boss__png else AssetPaths.enemy__png;
 		if (type == BOSS)
 		{
-			velocity.x = SPEED;
-			velocity.y = SPEED;
+			velocity.x = 0;
+			velocity.y = SPEED / 10;
 			loadGraphic(graphic, true);
 			this.width = 80;
 			this.height = 120;
@@ -51,11 +55,20 @@ class Enemy extends FlxSprite
 	{
 		x = FlxG.random.int(0, Std.int(FlxG.width - width));
 		y = -height;
+		if (type == BOSS)
+		{
+			maxBossHealth++;
+			bossHealth = maxBossHealth;
+		}
+		
 		super.revive();
 	}
 
 	override public function update(elapsed:Float)
 	{
+		if (invulnTimer > 0) {
+			invulnTimer -= elapsed;
+		}
 		if (movedOffScreen())
 		{
 			kill();
@@ -78,19 +91,23 @@ class Enemy extends FlxSprite
 		Enemy.kill();
 	}
 
-	public static function overlapsWithSaw(saw:FlxObject, Enemy:Enemy)
+	public static function overlapsWithSaw(saw:FlxObject, enemy:Enemy)
 	{
-		if (Enemy.type == BOSS)
+		if (enemy.type == BOSS && enemy.invulnTimer <= 0)
 		{
 			bossHealth -= 1;
+			FlxG.sound.play(AssetPaths.EnemyDeath__wav, .80);
+			enemy.invulnTimer = enemy.invulnTimerMax;
 			if (bossHealth <= 0)
 			{
-				Enemy.kill();
+				cast (FlxG.state, PlayState).enemiesKilled = 0;
+				cast (FlxG.state, PlayState).bossSpawned = false;
+				enemy.kill();
 			}
 		}
-		if (Enemy.type == NORMY)
+		if (enemy.type == NORMY)
 		{
-			Enemy.kill();
+			enemy.kill();
 			FlxG.sound.play(AssetPaths.EnemyDeath__wav, .80);
 		}
 	}
