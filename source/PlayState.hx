@@ -15,10 +15,14 @@ import flixel.group.FlxGroup;
 
 class PlayState extends FlxState
 {
-	//Enemy variables
-	var group:FlxTypedGroup<Enemy>;
+	// Enemy variables
+	var enemyGroup:FlxTypedGroup<Enemy>;
 	var spawnTimer:Float = 0;
+	var enemy:Enemy;
+	//	var boss:Enemy;
+	var SECONDS_PER_ENEMY(default, never):Float = 1;
 
+	// Player and Saw variables
 	private var newSawTimer:FlxTimer = new FlxTimer();
 	private var newSawDelay:Float = 10;
 
@@ -28,13 +32,6 @@ class PlayState extends FlxState
 	var saw:Saw;
 	var saw2:Saw;
 
-//	var enemiesOne:FlxTypedGroup<Enemy>;
-//	var enemiesTwo:FlxTypedGroup<Enemy>;
-//	var enemiesThree:FlxTypedGroup<Enemy>;
-	var enemy:Enemy;
-//	var boss:Enemy;
-	var SECONDS_PER_ENEMY(default, never):Float = 1;
-
 	var ending:Bool = false;
 
 	override public function create()
@@ -42,7 +39,7 @@ class PlayState extends FlxState
 		// start music
 		FlxG.sound.playMusic(AssetPaths.sawmain__wav, 1, true);
 
-		// fase in
+		// phase in
 		FlxG.camera.fade(FlxColor.BLACK, 0.33, true);
 
 		// call super
@@ -68,48 +65,17 @@ class PlayState extends FlxState
 		add(saw2);
 
 		// Create the enemies
-		add(group = new FlxTypedGroup<Enemy>(20));
+		add(enemyGroup = new FlxTypedGroup<Enemy>(20));
 	}
 
-	private function setUpEnemies()
-	{
-//		enemiesOne = new FlxTypedGroup<Enemy>();
-//		enemiesTwo = new FlxTypedGroup<Enemy>();
-//		enemiesThree = new FlxTypedGroup<Enemy>();
-		for (i in 0...5)
-		{
-//			var enemyOne = new Enemy(FlxG.random.float(0, FlxG.width), 0, NORMY);
-//			var enemyTwo = new Enemy(FlxG.random.float(0, FlxG.width), 0, NORMY);
-//			var enemyThree = new Enemy(FlxG.random.float(0, FlxG.width), 0, NORMY);
-//			enemyOne.kill();
-//			enemyTwo.kill();
-//			enemyThree.kill();
-//			enemiesOne.add(enemyOne);
-//			enemiesTwo.add(enemyTwo);
-//			enemiesThree.add(enemyThree);
-}
-
-//		add(enemiesOne);
-//		add(enemiesTwo);
-//		add(enemiesThree);
-
-
-//Commented out because it doesn't work with current Enemy() parameters
-//		if (!enemy.isOnScreen())
-//		{
-//			var enemyBoss = new Enemy(250, 0, BOSS);
-//			add(enemyBoss);
-//		}
-	}
-
-	//SpawnTimer of enemies, deals with just NORMY type enemies at the moment.
+	// SpawnTimer of enemies, deals with just NORMY type enemies at the moment.
 	override public function update(elapsed:Float)
 	{
 		spawnTimer += elapsed * 5;
 		if (spawnTimer > 1)
 		{
 			spawnTimer--;
-			group.add(group.recycle(Enemy.new.bind(EnemyType.NORMY)));
+			enemyGroup.add(enemyGroup.recycle(Enemy.new.bind(EnemyType.NORMY)));
 		}
 		super.update(elapsed);
 
@@ -119,11 +85,10 @@ class PlayState extends FlxState
 			return;
 		}
 
-		FlxG.overlap(player, enemy, Enemy.overlapsWithPlayer);
-		FlxG.overlap(saw, enemy, Enemy.overlapsWithSaw);
-		FlxG.overlap(saw2, enemy, Enemy.overlapsWithSaw);
-		// FlxG.overlap(player, enemiesTwo, Enemy.overlapsWithPlayer);
-		// FlxG.overlap(player, enemiesThree, Enemy.overlapsWithPlayer);
+		// Enemy collision detection
+		FlxG.overlap(player, enemyGroup, Enemy.overlapsWithPlayer);
+		FlxG.overlap(saw, enemyGroup, Enemy.overlapsWithSaw);
+		FlxG.overlap(saw2, enemyGroup, Enemy.overlapsWithSaw);
 
 		if (FlxG.keys.justPressed.ENTER)
 			FlxG.fullscreen = !FlxG.fullscreen;
