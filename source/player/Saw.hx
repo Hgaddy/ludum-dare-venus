@@ -54,14 +54,14 @@ class Saw extends FlxSprite
 
 		if (sawNum == 0) // if first saw
 		{
-			playerHighMidpoint.x = player_.x - 19;
+			playerHighMidpoint.x = player_.x - 4;
 			var angle1 = playerHighMidpoint.angleBetween(sawMidpoint);
 			this.velocity.set(SPEED, 0);
 			this.velocity.rotate(FlxPoint.weak(0, 0), angle1 + 15);
 		}
 		else // if second saw
 		{
-			playerLowMidpoint.x = player_.x + 49;
+			playerLowMidpoint.x = player_.x + 64;
 			var angle2 = playerLowMidpoint.angleBetween(sawMidpoint);
 			this.velocity.set(-SPEED, 0);
 			this.velocity.rotate(FlxPoint.weak(0, 0), angle2 - 15);
