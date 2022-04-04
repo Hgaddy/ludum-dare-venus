@@ -12,7 +12,7 @@ enum EnemyType
 
 class Enemy extends FlxSprite
 {
-	static inline var SPEED:Float = 150;
+	static var SPEED:Float = 75;
 
 	var type:EnemyType;
 
