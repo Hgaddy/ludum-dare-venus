@@ -18,11 +18,13 @@ class Enemy extends FlxSprite
 
 	static var bossHealth:Int = 6;
 
-	public function new(x:Float, y:Float, type:EnemyType)
+	public function new(type:EnemyType)
 	{
-		super();
+
+		super(x, y);
+		velocity.y = SPEED; //Speed of enemies
+
 		this.type = type;
-		velocity.y = SPEED;
 		var graphic = if (type == BOSS) AssetPaths.boss__png else AssetPaths.enemy__png;
 		if (type == BOSS)
 		{
@@ -42,7 +44,16 @@ class Enemy extends FlxSprite
 			this.offset.x = 10;
 			this.offset.y = 5;
 		}
+		kill();
 	}
+
+	//Overriding the revive() function, sets position of where enemies spawn, and randomizes their spawn location after they hit the bottom and are
+	override public function revive()
+		{
+			x = FlxG.random.int(0, Std.int(FlxG.width - width));
+			y =  -height;
+			super.revive();
+		}
 
 	override public function update(elapsed:Float)
 	{
@@ -63,7 +74,9 @@ class Enemy extends FlxSprite
 
 	public static function overlapsWithPlayer(player:FlxObject, Enemy:Enemy)
 	{
-		player.kill();
+		player.hurt(1);
+		Enemy.kill();
+
 	}
 
 	public static function overlapsWithSaw(saw:FlxObject, enemy:Enemy)

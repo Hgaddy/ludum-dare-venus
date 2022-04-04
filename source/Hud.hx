@@ -24,6 +24,7 @@ class Hud extends FlxTypedGroup<FlxSprite> {
 
         player = player_;
         score = 0;
+        player.health = 3;
 
         //Transparent black
         background = new FlxSprite(0, FlxG.height * 0.9).makeGraphic(FlxG.width, Std.int(FlxG.height / 10), 0x55000000);

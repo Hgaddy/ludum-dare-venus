@@ -15,6 +15,10 @@ import flixel.group.FlxGroup;
 
 class PlayState extends FlxState
 {
+	//Enemy variables
+	var group:FlxTypedGroup<Enemy>;
+	var spawnTimer:Float = 0;
+
 	private var newSawTimer:FlxTimer = new FlxTimer();
 	private var newSawDelay:Float = 10;
 
@@ -24,11 +28,11 @@ class PlayState extends FlxState
 	var saw:Saw;
 	var saw2:Saw;
 
-	var enemiesOne:FlxTypedGroup<Enemy>;
-	var enemiesTwo:FlxTypedGroup<Enemy>;
-	var enemiesThree:FlxTypedGroup<Enemy>;
+//	var enemiesOne:FlxTypedGroup<Enemy>;
+//	var enemiesTwo:FlxTypedGroup<Enemy>;
+//	var enemiesThree:FlxTypedGroup<Enemy>;
 	var enemy:Enemy;
-	var boss:Enemy;
+//	var boss:Enemy;
 	var SECONDS_PER_ENEMY(default, never):Float = 1;
 
 	var ending:Bool = false;
@@ -63,43 +67,50 @@ class PlayState extends FlxState
 		add(saw);
 		add(saw2);
 
-		// create enemies
-		// setUpEnemies();
-		enemy = new Enemy(100, 0, NORMY);
-		add(enemy);
+		// Create the enemies
+		add(group = new FlxTypedGroup<Enemy>(20));
 	}
 
 	private function setUpEnemies()
 	{
-		enemiesOne = new FlxTypedGroup<Enemy>();
-		enemiesTwo = new FlxTypedGroup<Enemy>();
-		enemiesThree = new FlxTypedGroup<Enemy>();
+//		enemiesOne = new FlxTypedGroup<Enemy>();
+//		enemiesTwo = new FlxTypedGroup<Enemy>();
+//		enemiesThree = new FlxTypedGroup<Enemy>();
 		for (i in 0...5)
 		{
-			var enemyOne = new Enemy(0, 0, NORMY);
-			var enemyTwo = new Enemy(150, 0, NORMY);
-			var enemyThree = new Enemy(300, 0, NORMY);
-			enemyOne.kill();
-			enemyTwo.kill();
-			enemyThree.kill();
-			enemiesOne.add(enemyOne);
-			enemiesTwo.add(enemyTwo);
-			enemiesThree.add(enemyThree);
-		}
+//			var enemyOne = new Enemy(FlxG.random.float(0, FlxG.width), 0, NORMY);
+//			var enemyTwo = new Enemy(FlxG.random.float(0, FlxG.width), 0, NORMY);
+//			var enemyThree = new Enemy(FlxG.random.float(0, FlxG.width), 0, NORMY);
+//			enemyOne.kill();
+//			enemyTwo.kill();
+//			enemyThree.kill();
+//			enemiesOne.add(enemyOne);
+//			enemiesTwo.add(enemyTwo);
+//			enemiesThree.add(enemyThree);
+}
 
-		add(enemiesOne);
-		add(enemiesTwo);
-		add(enemiesThree);
+//		add(enemiesOne);
+//		add(enemiesTwo);
+//		add(enemiesThree);
 
-		if (!enemy.isOnScreen())
-		{
-			var enemyBoss = new Enemy(250, 0, BOSS);
-			add(enemyBoss);
-		}
+
+//Commented out because it doesn't work with current Enemy() parameters
+//		if (!enemy.isOnScreen())
+//		{
+//			var enemyBoss = new Enemy(250, 0, BOSS);
+//			add(enemyBoss);
+//		}
 	}
 
+	//SpawnTimer of enemies, deals with just NORMY type enemies at the moment.
 	override public function update(elapsed:Float)
 	{
+		spawnTimer += elapsed * 5;
+		if (spawnTimer > 1)
+		{
+			spawnTimer--;
+			group.add(group.recycle(Enemy.new.bind(EnemyType.NORMY)));
+		}
 		super.update(elapsed);
 
 		// End anything else from happening if the game is ready to 'end'
