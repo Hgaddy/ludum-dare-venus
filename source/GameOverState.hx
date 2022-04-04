@@ -16,6 +16,8 @@ class GameOverState extends FlxState
 	var titleText2:FlxText;
 	var endMessage:FlxText;
 	var endMessage2:FlxText;
+	var finalScore:FlxText;
+	var totalScore:Int;
 	var tryAgainButton:FlxButtonPlus;
 	#if desktop
 	var exitButton:FlxButtonPlus;
@@ -37,25 +39,32 @@ class GameOverState extends FlxState
 		titleText2.alignment = CENTER;
 		titleText2.screenCenter(X);
 		add(titleText2);
+		// Final Score message
+		totalScore = Hud.score;
+		finalScore = new FlxText(0, 170, 0, "Final Score: " + totalScore, 22);
+		finalScore.screenCenter(X);
+		add(finalScore);
 
 		// Game Over messages
-		endMessage = new FlxText(0, 0, 0, "The Earth has inevitably been destroyed! ", 22);
+		endMessage = new FlxText(0, 0, 0, "Seems your time ran out... ", 22);
 		endMessage.screenCenter();
 		add(endMessage);
-		endMessage2 = new FlxText((FlxG.width / 2) - 140, (FlxG.height / 2) + 20, 0, "Game Over...or is it?!", 22);
+		endMessage2 = new FlxText((FlxG.width / 2) - 90, (FlxG.height / 2) + 20, 0, "Game Over!", 22);
 		add(endMessage2);
+
 		// Play again button
 		tryAgainButton = new FlxButtonPlus(0, 0, tryAgain, "Try Again?", 200, 50);
-		// PlayButton.onUp.sound = FlxG.sound.load(AssetPaths.start__wav);
 		tryAgainButton.x = (FlxG.width / 2) - (0.5 * tryAgainButton.width);
 		tryAgainButton.y = FlxG.height - tryAgainButton.height - 10;
 		add(tryAgainButton);
+
 		// Exit the game button
 		#if desktop
 		exitButton = new FlxButtonPlus(FlxG.width - 90, 8, clickExit, "X", 80, 20);
-		// exitButton.loadGraphic(AssetPaths.button__png, true, 20, 20);
 		add(exitButton);
 		#end
+
+		FlxG.sound.play(AssetPaths.PlayerDeath__wav, 100); // Play player death sound
 
 		super.create();
 	}
@@ -71,5 +80,15 @@ class GameOverState extends FlxState
 	private function clickExit()
 	{
 		System.exit(0);
+	}
+
+	override public function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		if (FlxG.mouse.justPressed)
+		{
+			FlxG.sound.play(AssetPaths.MenuClick__wav, 100); // MenuClick sound
+		}
 	}
 }

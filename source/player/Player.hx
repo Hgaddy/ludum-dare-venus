@@ -11,6 +11,7 @@ class Player extends FlxSprite
 	public static var SPEED(default, never):Int = 150;
 
 	public var maxHealth:Int = 3;
+	public var damage:Int;
 
 	public function new(X:Float = 0, Y:Float = 0)
 	{
@@ -21,7 +22,6 @@ class Player extends FlxSprite
 		this.height = 25;
 		this.offset.x = 14;
 		this.offset.y = 2.5;
-		// health = maxHealth;
 		health = maxHealth;
 	}
 
@@ -82,12 +82,8 @@ class Player extends FlxSprite
 		}
 	}
 
-	override function kill()
+	override function hurt(damage)
 	{
-		reset(FlxG.width / 2, FlxG.height - 80);
 		health -= 1;
-		// currentPower.inUse = false;
-		// currentPower.usable = true;
-		// cast(FlxG.state, PlayState).resetScore();
 	}
 }

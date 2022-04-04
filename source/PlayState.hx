@@ -9,36 +9,37 @@ import flixel.FlxState;
 import flixel.addons.display.FlxBackdrop;
 import player.Player;
 import Hud;
-import flixel.FlxCamera;
 import enemies.Enemy;
 import flixel.group.FlxGroup;
+import flixel.FlxObject;
 
 class PlayState extends FlxState
 {
+	// Enemy variables
+	var enemyGroup:FlxTypedGroup<Enemy>;
+	var spawnTimer:Float = 0;
+	var enemy:Enemy;
+	//	var boss:Enemy;
+	var SECONDS_PER_ENEMY(default, never):Float = 1;
+
+	// Player and Saw variables
 	private var newSawTimer:FlxTimer = new FlxTimer();
 	private var newSawDelay:Float = 10;
-
 	var backdrop:FlxBackdrop;
+	var bottomWall:FlxObject;
 	var player:Player;
 	var hud:Hud;
 	var saw:Saw;
 	var saw2:Saw;
-
-	var enemiesOne:FlxTypedGroup<Enemy>;
-	var enemiesTwo:FlxTypedGroup<Enemy>;
-	var enemiesThree:FlxTypedGroup<Enemy>;
-	var enemy:Enemy;
-	var boss:Enemy;
-	var SECONDS_PER_ENEMY(default, never):Float = 1;
-
+	// Game Over condition(s)
 	var ending:Bool = false;
 
 	override public function create()
 	{
 		// start music
-		FlxG.sound.playMusic(AssetPaths.sawmain__wav, 1, true);
+		FlxG.sound.playMusic(AssetPaths.sawmain__wav, 0.8, true);
 
-		// fase in
+		// phase in
 		FlxG.camera.fade(FlxColor.BLACK, 0.33, true);
 
 		// call super
@@ -47,6 +48,10 @@ class PlayState extends FlxState
 		// create backdrop
 		backdrop = new FlxBackdrop(AssetPaths.stars__png, 0, 1, false, true, 0, 0);
 		backdrop.velocity.set(0, 100);
+
+		// create bottom wall
+		bottomWall = new FlxObject(0, FlxG.height, FlxG.width, (FlxG.height - 10));
+		bottomWall.immovable = true;
 
 		// create player
 		player = new Player(FlxG.width / 2, FlxG.height - 80);
@@ -58,48 +63,25 @@ class PlayState extends FlxState
 
 		// add elements
 		add(backdrop);
+		add(bottomWall);
 		add(player);
 		add(hud);
 		add(saw);
 		add(saw2);
 
-		// create enemies
-		// setUpEnemies();
-		enemy = new Enemy(100, 0, NORMY);
-		add(enemy);
+		// Create the enemies
+		add(enemyGroup = new FlxTypedGroup<Enemy>(20));
 	}
 
-	private function setUpEnemies()
-	{
-		enemiesOne = new FlxTypedGroup<Enemy>();
-		enemiesTwo = new FlxTypedGroup<Enemy>();
-		enemiesThree = new FlxTypedGroup<Enemy>();
-		for (i in 0...5)
-		{
-			var enemyOne = new Enemy(0, 0, NORMY);
-			var enemyTwo = new Enemy(150, 0, NORMY);
-			var enemyThree = new Enemy(300, 0, NORMY);
-			enemyOne.kill();
-			enemyTwo.kill();
-			enemyThree.kill();
-			enemiesOne.add(enemyOne);
-			enemiesTwo.add(enemyTwo);
-			enemiesThree.add(enemyThree);
-		}
-
-		add(enemiesOne);
-		add(enemiesTwo);
-		add(enemiesThree);
-
-		if (!enemy.isOnScreen())
-		{
-			var enemyBoss = new Enemy(250, 0, BOSS);
-			add(enemyBoss);
-		}
-	}
-
+	// SpawnTimer of enemies, deals with just NORMY type enemies at the moment.
 	override public function update(elapsed:Float)
 	{
+		spawnTimer += elapsed * 3; // Reduce this timer value to  make it take longer for ships to respawn, increase for opposite effect.
+		if (spawnTimer > 1)
+		{
+			spawnTimer--;
+			enemyGroup.add(enemyGroup.recycle(Enemy.new.bind(EnemyType.NORMY)));
+		}
 		super.update(elapsed);
 
 		// End anything else from happening if the game is ready to 'end'
@@ -108,11 +90,22 @@ class PlayState extends FlxState
 			return;
 		}
 
-		FlxG.overlap(player, enemy, Enemy.overlapsWithPlayer);
-		FlxG.overlap(saw, enemy, Enemy.overlapsWithSaw);
-		FlxG.overlap(saw2, enemy, Enemy.overlapsWithSaw);
-		// FlxG.overlap(player, enemiesTwo, Enemy.overlapsWithPlayer);
-		// FlxG.overlap(player, enemiesThree, Enemy.overlapsWithPlayer);
+		// Bottom wall collision
+		if (FlxG.collide(player, bottomWall))
+		{
+			player.velocity.y = 0;
+		}
+
+		// Enemy collision detection
+		FlxG.overlap(player, enemyGroup, Enemy.overlapsWithPlayer);
+		if (FlxG.overlap(saw, enemyGroup, Enemy.overlapsWithSaw))
+		{
+			hud.addScore(1);
+		}
+		if (FlxG.overlap(saw2, enemyGroup, Enemy.overlapsWithSaw))
+		{
+			hud.addScore(1);
+		}
 
 		if (FlxG.keys.justPressed.ENTER)
 			FlxG.fullscreen = !FlxG.fullscreen;
@@ -120,6 +113,8 @@ class PlayState extends FlxState
 		// End the game if the player reaches 0 lives or health
 		if (player.health <= 0)
 		{
+			FlxG.sound.play(AssetPaths.PlayerDeath__wav, 100);
+
 			ending = true;
 			FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function gameOver()
 			{

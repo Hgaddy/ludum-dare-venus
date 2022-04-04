@@ -12,17 +12,18 @@ enum EnemyType
 
 class Enemy extends FlxSprite
 {
-	static inline var SPEED:Float = 150;
+	static var SPEED:Float = 75;
 
 	var type:EnemyType;
 
 	static var bossHealth:Int = 6;
 
-	public function new(x:Float, y:Float, type:EnemyType)
+	public function new(type:EnemyType)
 	{
-		super();
+		super(x, y);
+		velocity.y = SPEED; // Speed of enemies
+
 		this.type = type;
-		velocity.y = SPEED;
 		var graphic = if (type == BOSS) AssetPaths.boss__png else AssetPaths.enemy__png;
 		if (type == BOSS)
 		{
@@ -42,6 +43,15 @@ class Enemy extends FlxSprite
 			this.offset.x = 10;
 			this.offset.y = 5;
 		}
+		kill();
+	}
+
+	// Overriding the revive() function, sets position of where enemies spawn, and randomizes their spawn location after they hit the bottom and are
+	override public function revive()
+	{
+		x = FlxG.random.int(0, Std.int(FlxG.width - width));
+		y = -height;
+		super.revive();
 	}
 
 	override public function update(elapsed:Float)
@@ -63,22 +73,25 @@ class Enemy extends FlxSprite
 
 	public static function overlapsWithPlayer(player:FlxObject, Enemy:Enemy)
 	{
-		player.kill();
+		player.hurt(1);
+		FlxG.sound.play(AssetPaths.PlayerHurt__wav, .80);
+		Enemy.kill();
 	}
 
-	public static function overlapsWithSaw(saw:FlxObject, enemy:Enemy)
+	public static function overlapsWithSaw(saw:FlxObject, Enemy:Enemy)
 	{
-		if (enemy.type == BOSS)
+		if (Enemy.type == BOSS)
 		{
 			bossHealth -= 1;
 			if (bossHealth <= 0)
 			{
-				enemy.kill();
+				Enemy.kill();
 			}
 		}
-		if (enemy.type == NORMY)
+		if (Enemy.type == NORMY)
 		{
-			enemy.kill();
+			Enemy.kill();
+			FlxG.sound.play(AssetPaths.EnemyDeath__wav, .80);
 		}
 	}
 
