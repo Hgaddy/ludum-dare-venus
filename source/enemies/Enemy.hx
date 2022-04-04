@@ -12,10 +12,11 @@ enum EnemyType
 
 class Enemy extends FlxSprite
 {
-	
-	static var SPEED:Float = 100;
+	static var SPEED:Float = 75;
+
 	var type:EnemyType;
-	var bossHealth:Int = 6;
+
+	static var bossHealth:Int = 6;
 
 	public function new(type:EnemyType)
 	{
@@ -27,11 +28,21 @@ class Enemy extends FlxSprite
 		var graphic = if (type == BOSS) AssetPaths.boss__png else AssetPaths.enemy__png;
 		if (type == BOSS)
 		{
-			loadGraphic(graphic, true, 100, 140);
+			velocity.x = SPEED;
+			velocity.y = 0;
+			loadGraphic(graphic, true);
+			this.width = 80;
+			this.height = 120;
+			this.offset.x = 20;
+			this.offset.y = 10;
 		}
 		else
 		{
-			loadGraphic(graphic, true, 50, 55);
+			loadGraphic(graphic, true);
+			this.width = 30;
+			this.height = 45;
+			this.offset.x = 10;
+			this.offset.y = 5;
 		}
 		kill();
 	}
@@ -67,35 +78,19 @@ class Enemy extends FlxSprite
 
 	}
 
-	public function overlapsWithSaw(saw:FlxObject, Enemy:Enemy)
+	public static function overlapsWithSaw(saw:FlxObject, enemy:Enemy)
 	{
-		if (Enemy.type == BOSS)
+		if (enemy.type == BOSS)
 		{
 			bossHealth -= 1;
 			if (bossHealth <= 0)
 			{
-				Enemy.kill();
+				enemy.kill();
 			}
 		}
-		if (Enemy.type == NORMY)
+		if (enemy.type == NORMY)
 		{
-			Enemy.kill();
-		}
-	}
-
-	public function overlapsWithSaw2(saw2:FlxObject, Enemy:Enemy)
-	{
-		if (Enemy.type == BOSS)
-		{
-			bossHealth -= 1;
-			if (bossHealth <= 0)
-			{
-				Enemy.kill();
-			}
-		}
-		if (Enemy.type == NORMY)
-		{
-			Enemy.kill();
+			enemy.kill();
 		}
 	}
 

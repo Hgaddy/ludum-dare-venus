@@ -58,24 +58,17 @@ class PlayState extends FlxState
 
 		// generate first saw
 		saw = new Saw(FlxG.width / 2, FlxG.height - 80, player, 0);
-
-		// start saw timer
-		newSawTimer.start(newSawDelay, setUpSaws, 1);
+		saw2 = new Saw(FlxG.width / 2 + 15, FlxG.height - 80, player, 1);
 
 		// add elements
 		add(backdrop);
 		add(player);
 		add(hud);
 		add(saw);
+		add(saw2);
 
 		// Create the enemies
 		add(group = new FlxTypedGroup<Enemy>(20));
-	}
-
-	private function setUpSaws(timer:FlxTimer)
-	{
-		saw2 = new Saw(FlxG.width / 4, FlxG.height / 4, player, 1);
-		add(saw2);
 	}
 
 	private function setUpEnemies()
@@ -94,11 +87,17 @@ class PlayState extends FlxState
 //			enemiesOne.add(enemyOne);
 //			enemiesTwo.add(enemyTwo);
 //			enemiesThree.add(enemyThree);
-		}
+}
 
 //		add(enemiesOne);
 //		add(enemiesTwo);
 //		add(enemiesThree);
+
+		if (!enemy.isOnScreen())
+		{
+			var enemyBoss = new Enemy(250, 0, BOSS);
+			add(enemyBoss);
+		}
 	}
 
 	override public function update(elapsed:Float)
@@ -118,8 +117,8 @@ class PlayState extends FlxState
 		}
 
 		FlxG.overlap(player, enemy, Enemy.overlapsWithPlayer);
-		// FlxG.overlap(saw, enemy, Enemy.overlapsWithSaw);
-		// FlxG.overlap(saw2, enemy, Enemy.overlapsWithSaw2);
+		FlxG.overlap(saw, enemy, Enemy.overlapsWithSaw);
+		FlxG.overlap(saw2, enemy, Enemy.overlapsWithSaw);
 		// FlxG.overlap(player, enemiesTwo, Enemy.overlapsWithPlayer);
 		// FlxG.overlap(player, enemiesThree, Enemy.overlapsWithPlayer);
 
