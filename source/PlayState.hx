@@ -17,6 +17,7 @@ class PlayState extends FlxState
 {
 	// Enemy variables
 	var enemyGroup:FlxTypedGroup<Enemy>;
+	var bossGroup:FlxTypedGroup<Enemy>;
 	var spawnTimer:Float = 0;
 	var enemy:Enemy;
 	//	var boss:Enemy;
@@ -33,6 +34,8 @@ class PlayState extends FlxState
 	var saw2:Saw;
 	// Game Over condition(s)
 	var ending:Bool = false;
+	var enemiesKilled:Int = 0;
+	var bossSpawned:Bool = false;
 
 	override public function create()
 	{
@@ -70,6 +73,7 @@ class PlayState extends FlxState
 
 		// Create the enemies
 		add(enemyGroup = new FlxTypedGroup<Enemy>(20));
+		add(bossGroup = new FlxTypedGroup<Enemy>(1));
 
 		// add hud
 		add(hud);
@@ -79,10 +83,18 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float)
 	{
 		spawnTimer += elapsed * 3; // Reduce this timer value to  make it take longer for ships to respawn, increase for opposite effect.
-		if (spawnTimer > 1)
+		if (spawnTimer > 1 && enemiesKilled < 15)
 		{
 			spawnTimer--;
 			enemyGroup.add(enemyGroup.recycle(Enemy.new.bind(EnemyType.NORMY)));
+		}
+		if (enemiesKilled >= 1 && !bossSpawned)
+		{
+			FlxG.sound.playMusic(AssetPaths.sawboss__wav, 0.8, true);
+			var boss = bossGroup.recycle(Enemy, Enemy.new.bind(EnemyType.BOSS));
+			trace(boss);
+			bossGroup.add(boss);
+			bossSpawned = true;
 		}
 		super.update(elapsed);
 
@@ -103,10 +115,12 @@ class PlayState extends FlxState
 		if (FlxG.overlap(saw, enemyGroup, Enemy.overlapsWithSaw))
 		{
 			hud.addScore(1);
+			enemiesKilled++;
 		}
 		if (FlxG.overlap(saw2, enemyGroup, Enemy.overlapsWithSaw))
 		{
 			hud.addScore(1);
+			enemiesKilled++;
 		}
 
 		if (FlxG.keys.justPressed.ENTER)

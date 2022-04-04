@@ -28,7 +28,7 @@ class Enemy extends FlxSprite
 		if (type == BOSS)
 		{
 			velocity.x = SPEED;
-			velocity.y = 0;
+			velocity.y = SPEED;
 			loadGraphic(graphic, true);
 			this.width = 80;
 			this.height = 120;
