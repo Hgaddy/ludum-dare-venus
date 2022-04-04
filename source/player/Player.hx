@@ -20,7 +20,7 @@ class Player extends FlxSprite
 		loadGraphic(AssetPaths.player__png, false);
 		this.width = 60;
 		this.height = 25;
-		this.offset.x = 14;
+		this.offset.x = 13;
 		this.offset.y = 2.5;
 		health = maxHealth;
 	}

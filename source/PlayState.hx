@@ -33,6 +33,8 @@ class PlayState extends FlxState
 	var saw2:Saw;
 	// Game Over condition(s)
 	var ending:Bool = false;
+	// Extra life counter
+	var extraLifeCounter:Int = 0;
 
 	override public function create()
 	{
@@ -103,10 +105,19 @@ class PlayState extends FlxState
 		if (FlxG.overlap(saw, enemyGroup, Enemy.overlapsWithSaw))
 		{
 			hud.addScore(1);
+			extraLifeCounter += 1;
 		}
 		if (FlxG.overlap(saw2, enemyGroup, Enemy.overlapsWithSaw))
 		{
 			hud.addScore(1);
+			extraLifeCounter += 1;
+		}
+
+		// Add extra life every 100 enemies killed
+		if (extraLifeCounter >= 100)
+		{
+			extraLifeCounter = 0;
+			player.health += 1;
 		}
 
 		if (FlxG.keys.justPressed.ENTER)
