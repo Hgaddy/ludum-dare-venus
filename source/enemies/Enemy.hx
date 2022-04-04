@@ -32,7 +32,7 @@ class Enemy extends FlxSprite
 			loadGraphic(graphic, true);
 			this.width = 80;
 			this.height = 120;
-			this.offset.x = 20;
+			this.offset.x = 10;
 			this.offset.y = 10;
 		}
 		else
@@ -40,7 +40,7 @@ class Enemy extends FlxSprite
 			loadGraphic(graphic, true);
 			this.width = 30;
 			this.height = 45;
-			this.offset.x = 10;
+			this.offset.x = 11;
 			this.offset.y = 5;
 		}
 		kill();
