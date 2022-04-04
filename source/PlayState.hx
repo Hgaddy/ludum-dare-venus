@@ -65,12 +65,14 @@ class PlayState extends FlxState
 		add(backdrop);
 		add(bottomWall);
 		add(player);
-		add(hud);
 		add(saw);
 		add(saw2);
 
 		// Create the enemies
 		add(enemyGroup = new FlxTypedGroup<Enemy>(20));
+
+		// add hud
+		add(hud);
 	}
 
 	// SpawnTimer of enemies, deals with just NORMY type enemies at the moment.
