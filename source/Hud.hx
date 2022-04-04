@@ -16,8 +16,12 @@ class Hud extends FlxTypedGroup<FlxSprite>
 	var livesCounter:FlxText;
 	var scoreLabel:FlxText;
 	var scoreCounter:FlxText;
+	var waveLabel:FlxText;
+	var waveNum:FlxText;
 
+	var Wave(default, null):Int; //Why does this work but the other doesn't
 	public static var score:Int;
+	public static var wave:Int;
 
 	public function new(player_:Player, ?textSize:Int = 16, ?spriteSize:Int = 32)
 	{
@@ -26,6 +30,7 @@ class Hud extends FlxTypedGroup<FlxSprite>
 		player = player_;
 		score = 0;
 		player.health = 3;
+		wave = 1;
 
 		// Transparent black
 		background = new FlxSprite(0, FlxG.height * 0.9).makeGraphic(FlxG.width, Std.int(FlxG.height / 10), 0x55000000);
@@ -44,11 +49,21 @@ class Hud extends FlxTypedGroup<FlxSprite>
 		scoreCounter = new FlxText(scoreLabel.x + scoreLabel.width + textOffset, textHeight, 0, "" + score, textSize);
 		scoreCounter.scrollFactor.set(0, 0);
 
+		waveLabel = new FlxText(livesSprite.x + livesSprite.width + (textOffset * 44), textHeight, 0, "Wave: ", textSize);
+		waveLabel.scrollFactor.set(0, 0);
+
+		waveNum = new FlxText(waveLabel.x + waveLabel.width + textOffset, textHeight, 0, "" + wave, textSize);
+		waveNum.scrollFactor.set(0, 0);
+
+
+
 		add(background);
 		add(livesSprite);
 		add(livesCounter);
 		add(scoreCounter);
 		add(scoreLabel);
+		add(waveLabel);
+		add(waveNum);
 	}
 
 	override public function update(elapsed:Float)
@@ -82,4 +97,16 @@ class Hud extends FlxTypedGroup<FlxSprite>
 	{
 		livesCounter.text = "" + player.health;
 	}
+
+	public function addWave(wave:Int)
+	{
+		wave += Wave;
+		waveNum.text = "" + wave;
+	}
+
+	public function removeWaves()
+		{
+			wave = 0;
+			waveNum.text = "" + wave;
+		}
 }
