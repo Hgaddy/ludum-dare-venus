@@ -23,11 +23,10 @@ class MenuState extends FlxState
 	override public function create()
 	{
 		if (FlxG.sound.music == null) // don't restart the music if it's already playing
-			{
-				// start music
-				FlxG.sound.playMusic(AssetPaths.sawintro__wav, 0.8, true);
-			}		
-
+		{
+			// start music
+			FlxG.sound.playMusic(AssetPaths.sawintro__wav, 0.8, true);
+		}
 
 		// first part of title
 		titleText = new FlxText(20, 0, 0, "Space Saw", 35);
@@ -41,7 +40,7 @@ class MenuState extends FlxState
 		titleText2.screenCenter(X);
 		add(titleText2);
 
-		//Add spinning saw logo cover
+		// Add spinning saw logo cover
 		var logosaw = new FlxSprite();
 		logosaw.loadGraphic(AssetPaths.titlesaw__png, false);
 		logosaw.screenCenter();
@@ -88,9 +87,9 @@ class MenuState extends FlxState
 		super.update(elapsed);
 
 		if (FlxG.mouse.justPressed)
-			{
-				FlxG.sound.play(AssetPaths.MenuClick__wav, 100);	//MenuClick sound
-			}
+		{
+			FlxG.sound.play(AssetPaths.MenuClick__wav, 100); // MenuClick sound
+		}
 
 		if (FlxG.keys.justPressed.ENTER)
 			FlxG.fullscreen = !FlxG.fullscreen;
