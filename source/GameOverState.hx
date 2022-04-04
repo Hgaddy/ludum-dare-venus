@@ -42,12 +42,11 @@ class GameOverState extends FlxState
 		endMessage = new FlxText(0, 0, 0, "Seems your time ran out... ", 22);
 		endMessage.screenCenter();
 		add(endMessage);
-		endMessage2 = new FlxText((FlxG.width / 2) - 140, (FlxG.height / 2) + 20, 0, "Game Over!", 22);
+		endMessage2 = new FlxText((FlxG.width / 2) - 90, (FlxG.height / 2) + 20, 0, "Game Over!", 22);
 		add(endMessage2);
 
 		// Play again button
 		tryAgainButton = new FlxButtonPlus(0, 0, tryAgain, "Try Again?", 200, 50);
-		// PlayButton.onUp.sound = FlxG.sound.load(AssetPaths.start__wav);
 		tryAgainButton.x = (FlxG.width / 2) - (0.5 * tryAgainButton.width);
 		tryAgainButton.y = FlxG.height - tryAgainButton.height - 10;
 		add(tryAgainButton);
@@ -55,7 +54,6 @@ class GameOverState extends FlxState
 		// Exit the game button
 		#if desktop
 		exitButton = new FlxButtonPlus(FlxG.width - 90, 8, clickExit, "X", 80, 20);
-		// exitButton.loadGraphic(AssetPaths.button__png, true, 20, 20);
 		add(exitButton);
 		#end
 
