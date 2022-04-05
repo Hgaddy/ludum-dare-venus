@@ -87,7 +87,7 @@ class PlayState extends FlxState
 			spawnTimer--;
 			enemyGroup.add(enemyGroup.recycle(Enemy.new.bind(EnemyType.NORMY)));
 		}
-		if (enemiesKilled >= 2 && !bossSpawned)
+		if (enemiesKilled >= 15 && !bossSpawned)
 		{
 			FlxG.sound.playMusic(AssetPaths.sawboss__wav, 0.8, true);
 			boss.revive();

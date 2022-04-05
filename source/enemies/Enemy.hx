@@ -16,8 +16,8 @@ class Enemy extends FlxSprite
 
 	var type:EnemyType;
 
-	static var bossHealth = 1;
-	var maxBossHealth:Int = 1;
+	static var bossHealth = 5;
+	var maxBossHealth:Int = 5;
 
 	var invulnTimerMax:Float = .5;
 	var invulnTimer:Float = 0;
@@ -111,6 +111,7 @@ class Enemy extends FlxSprite
 				cast (FlxG.state, PlayState).bossSpawned = false;
 				cast (FlxG.state, PlayState).enemyGroup.forEachAlive((enemy:Enemy) -> {enemy.kill();});
 				enemy.kill();
+				SPEED += 15;
 			}
 		}
 		if (enemy.type == NORMY)
