@@ -16,7 +16,7 @@ import flixel.FlxObject;
 class PlayState extends FlxState
 {
 	// Enemy variables
-	var enemyGroup:FlxTypedGroup<Enemy>;
+	public var enemyGroup:FlxTypedGroup<Enemy>;
 	var boss:Enemy;
 	var spawnTimer:Float = 0;
 	var enemy:Enemy;
@@ -87,7 +87,7 @@ class PlayState extends FlxState
 			spawnTimer--;
 			enemyGroup.add(enemyGroup.recycle(Enemy.new.bind(EnemyType.NORMY)));
 		}
-		if (enemiesKilled >= 5 && !bossSpawned)
+		if (enemiesKilled >= 2 && !bossSpawned)
 		{
 			FlxG.sound.playMusic(AssetPaths.sawboss__wav, 0.8, true);
 			boss.revive();

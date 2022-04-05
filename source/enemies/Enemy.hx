@@ -16,8 +16,8 @@ class Enemy extends FlxSprite
 
 	var type:EnemyType;
 
-	static var bossHealth = 6;
-	var maxBossHealth:Int = 6;
+	static var bossHealth = 1;
+	var maxBossHealth:Int = 1;
 
 	var invulnTimerMax:Float = .5;
 	var invulnTimer:Float = 0;
@@ -88,7 +88,14 @@ class Enemy extends FlxSprite
 	{
 		player.hurt(1);
 		FlxG.sound.play(AssetPaths.PlayerHurt__wav, .80);
-		Enemy.kill();
+		if (Enemy.type == BOSS)
+		{
+			// Do nothing
+		}
+		else
+		{
+			Enemy.kill();
+		}
 	}
 
 	public static function overlapsWithSaw(saw:FlxObject, enemy:Enemy)
@@ -102,6 +109,7 @@ class Enemy extends FlxSprite
 			{
 				cast (FlxG.state, PlayState).enemiesKilled = 0;
 				cast (FlxG.state, PlayState).bossSpawned = false;
+				cast (FlxG.state, PlayState).enemyGroup.forEachAlive((enemy:Enemy) -> {enemy.kill();});
 				enemy.kill();
 			}
 		}
